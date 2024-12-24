@@ -1,5 +1,5 @@
 ﻿# Filter_basis_quant_vgg
-This code Tests filter basis and bitwise shift on vgg16 and cifar100. You can set the size of filter basis and choose whether to use bitwise shift. Additionally, you can set bits for quantization.
+This code tests filter basis and bitwise shift on VGG16 and CIFAR-100. You can configure the size of the filter basis and decide whether to use bitwise shift. Additionally, you can set the number of bits for quantization. To enable bitwise shift for linear combination coefficients, set `coefficients_shift_en` to 1. In this case, the value of `coefficients_quant_bits` will no longer be relevant.
 
 # Train
 
