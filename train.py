@@ -113,22 +113,22 @@ if __name__ == "__main__":
     epochs_float = args.epochs_float
     epochs_qat = args.epochs_qat
     seed = args.seed
+    if args.coefficients_shift_en==0:
+        shift_en = False
+    else:
+        shift_en = True
     set_seed(seed)
 
     criterion = nn.CrossEntropyLoss()
     train_loader, val_loader = create_datasets(args.batch_size)
     #creat compressed model
-    model1 = model_filter_basis.VGG16_shared_basis_filter(100,32,args.filter_basis_channel,args.filter_basis_number,shift=args.coefficients_shift_en)
+    model1 = model_filter_basis.VGG16_shared_basis_filter(100,32,args.filter_basis_channel,args.filter_basis_number,shift=shift_en)
     model1.to("cpu")
     summary(model1, (3, 32, 32),device="cpu")
     print("device:" + device)
     print("seed:" + str(seed))
     print("lr:" + str(learning_rate_float))
     print("epochs:" + str(epochs_float))
-    if args.coefficients_shift_en==0:
-        shift_en = False
-    else:
-        shift_en = True
     print("shift:" + str(shift_en))
     print("path:" + path)
     #Train float model
