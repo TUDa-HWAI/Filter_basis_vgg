@@ -1,4 +1,5 @@
 import argparse
+
 import torch.optim as optim
 from torch.ao.quantization import QConfig, FusedMovingAvgObsFakeQuantize, MovingAverageMinMaxObserver, prepare_qat, \
     MovingAveragePerChannelMinMaxObserver
@@ -98,11 +99,11 @@ if __name__ == "__main__":
     parser.add_argument('--filter_basis_weights_quant_bits', default=8, type=int,
                         help='bits for filter basis weights (default: 8)')
     parser.add_argument('--coefficients_quant_bits', default=8, type=int,
-                        help='bits for coefficients (default: 8)')
+                        help='bits for coefficients of linear combination (default: 8)')
     parser.add_argument('--activations_quant_bits', default=8, type=int,
                         help='bits for activations (default: 8)')
-    parser.add_argument('--coefficients_shift_en', default=False, type=bool,
-                        help='enable bitwise shift operation for coefficients (default: False)')
+    parser.add_argument('--coefficients_shift_en', default=0, type=int,
+                        help='enable bitwise shift operation for coefficients (default: 0)')
     args = parser.parse_args()
 
     device=args.device
@@ -124,6 +125,11 @@ if __name__ == "__main__":
     print("seed:" + str(seed))
     print("lr:" + str(learning_rate_float))
     print("epochs:" + str(epochs_float))
+    if args.coefficients_shift_en==0:
+        shift_en = False
+    else:
+        shift_en = True
+    print("shift:" + str(shift_en))
     print("path:" + path)
     #Train float model
     print("Train float model")
